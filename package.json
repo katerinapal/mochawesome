@@ -4,7 +4,7 @@
   "description": "A gorgeous reporter for Mocha.js",
   "scripts": {
     "lint": "eslint src test",
-    "test": "npm run lint && cross-env NODE_ENV=test nyc mocha --config test/.mocharc.json",
+    "test": "cross-env NODE_ENV=test nyc mocha --config test/.mocharc.json",
     "test:fn": "mocha test-functional/test.js --config test-functional/.mocharc.json",
     "test:prog": "node ./test-programmatic",
     "test:mem": "mocha test-functional/mem-test.js --config test-functional/.mocharc.json",
