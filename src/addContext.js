@@ -1,15 +1,39 @@
-import isObject from "lodash.isobject";
-import isEmpty from "lodash.isempty";
-import chalk from "chalk";
-import stringify from "json-stringify-safe";
+"use strict";
 
-const errorPrefix = 'Error adding context:';
-const ERRORS = {
-  INVALID_ARGS: `${errorPrefix} Invalid arguments.`,
-  INVALID_TEST: `${errorPrefix} Invalid test object.`,
-  INVALID_CONTEXT: ctx => {
-    const expected = 'Expected a string or an object of shape { title: string, value: any } but saw:';
-    return `${errorPrefix} ${expected}\n${stringify(ctx, (key, val) => (val === undefined ? 'undefined' : val), 2)}`;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addContext = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _lodash = require("lodash.isobject");
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require("lodash.isempty");
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _chalk = require("chalk");
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
+var _jsonStringifySafe = require("json-stringify-safe");
+
+var _jsonStringifySafe2 = _interopRequireDefault(_jsonStringifySafe);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var errorPrefix = 'Error adding context:';
+var ERRORS = {
+  INVALID_ARGS: errorPrefix + " Invalid arguments.",
+  INVALID_TEST: errorPrefix + " Invalid test object.",
+  INVALID_CONTEXT: function INVALID_CONTEXT(ctx) {
+    var expected = 'Expected a string or an object of shape { title: string, value: any } but saw:';
+    return errorPrefix + " " + expected + "\n" + (0, _jsonStringifySafe2.default)(ctx, function (key, val) {
+      return val === undefined ? 'undefined' : val;
+    }, 2);
   }
 };
 
@@ -19,12 +43,12 @@ const ERRORS = {
 
 /* istanbul ignore next */
 function log(msg, level) {
-  const logMethod = console[level] || console.log;
-  let out = msg;
-  if (typeof msg === 'object') {
-    out = stringify(msg, null, 2);
+  var logMethod = console[level] || console.log;
+  var out = msg;
+  if ((typeof msg === "undefined" ? "undefined" : _typeof(msg)) === 'object') {
+    out = (0, _jsonStringifySafe2.default)(msg, null, 2);
   }
-  logMethod(`[${chalk.gray('mochawesome')}] ${out}\n`);
+  logMethod("[" + _chalk2.default.gray('mochawesome') + "] " + out + "\n");
 }
 
 function _isValidContext(ctx) {
@@ -34,18 +58,21 @@ function _isValidContext(ctx) {
    * 2. Type is object and it has properties `title` and `value` and `title` is not empty
    */
   if (!ctx) return false;
-  return ((typeof ctx === 'string') && !isEmpty(ctx))
-    || (Object.hasOwnProperty.call(ctx, 'title') && !isEmpty(ctx.title) && Object.hasOwnProperty.call(ctx, 'value'));
+  return typeof ctx === 'string' && !(0, _lodash4.default)(ctx) || Object.hasOwnProperty.call(ctx, 'title') && !(0, _lodash4.default)(ctx.title) && Object.hasOwnProperty.call(ctx, 'value');
 }
 
-const addContext = function (...args) {
+var addContext = function addContext() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
   // Check args to see if we should bother continuing
-  if ((args.length !== 2) || !isObject(args[0])) {
+  if (args.length !== 2 || !(0, _lodash2.default)(args[0])) {
     log(ERRORS.INVALID_ARGS, 'error');
     return;
   }
 
-  const ctx = args[1];
+  var ctx = args[1];
 
   // Ensure that context meets the requirements
   if (!_isValidContext(ctx)) {
@@ -58,15 +85,14 @@ const addContext = function (...args) {
    * will be `.currentTest`, and the hook will be `.test`.
    * Otherwise the test is just `.test` and `.currentTest` is undefined.
    */
-  const currentTest = args[0].currentTest;
-  const activeTest = args[0].test;
+  var currentTest = args[0].currentTest;
+  var activeTest = args[0].test;
 
   /* For `before` and `after`, add the context to the hook,
    * otherwise add it to the actual test.
    */
-  const isEachHook = currentTest
-    && /^"(?:before|after)\seach"/.test(activeTest.title);
-  const test = isEachHook ? currentTest : activeTest;
+  var isEachHook = currentTest && /^"(?:before|after)\seach"/.test(activeTest.title);
+  var test = isEachHook ? currentTest : activeTest;
 
   if (!test) {
     log(ERRORS.INVALID_TEST, 'error');
@@ -89,10 +115,10 @@ const addContext = function (...args) {
     test.context.push(ctx);
   } else {
     // Test has context and it is not an array -> make it an array, then push new context
-    test.context = [ test.context ];
+    test.context = [test.context];
     test.context.push(ctx);
   }
 };
 
-let exported_addContext = addContext;
-export { exported_addContext as addContext };
+var exported_addContext = addContext;
+exports.addContext = exported_addContext;

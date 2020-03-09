@@ -1,4 +1,11 @@
-import { hook as sampletestsjs_hook } from "./sample-tests";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.three = exports.two = exports.one = undefined;
+
+var _sampleTests = require('./sample-tests');
 
 var samplesuitejs = {
   one: {
@@ -6,11 +13,11 @@ var samplesuitejs = {
       title: '',
       file: 'test.js',
       ctx: {},
-      suites: [ {
+      suites: [{
         title: 'Mochawesome Suite',
         ctx: {},
         suites: [],
-        tests: [ {
+        tests: [{
           title: 'passing test',
           body: 'function () {}',
           async: 0,
@@ -32,7 +39,7 @@ var samplesuitejs = {
           duration: 0,
           state: 'passed',
           speed: 'fast'
-        } ],
+        }],
         pending: false,
         _beforeEach: [],
         _beforeAll: [],
@@ -48,7 +55,7 @@ var samplesuitejs = {
         _onlySuites: [],
         delayed: false,
         parent: '[Circular ~]'
-      } ],
+      }],
       tests: [],
       pending: false,
       _beforeEach: [],
@@ -67,11 +74,11 @@ var samplesuitejs = {
     },
     cleaned: {
       title: '',
-      suites: [ {
+      suites: [{
         title: 'Mochawesome Suite',
         ctx: {},
         suites: [],
-        tests: [ {
+        tests: [{
           title: 'passing test',
           body: 'function () {}',
           async: 0,
@@ -93,7 +100,7 @@ var samplesuitejs = {
           _slow: 75,
           _timeout: 2000,
           _trace: {}
-        } ],
+        }],
         pending: false,
         _beforeEach: [],
         _beforeAll: [],
@@ -109,7 +116,7 @@ var samplesuitejs = {
         _onlySuites: [],
         delayed: false,
         parent: '[Circular ~]'
-      } ],
+      }],
       beforeHooks: [],
       afterHooks: [],
       tests: [],
@@ -131,7 +138,7 @@ var samplesuitejs = {
       title: 'Mochawesome Suite',
       ctx: {},
       suites: [],
-      tests: [ {
+      tests: [{
         title: 'passing test',
         body: 'function () {}',
         async: 0,
@@ -153,9 +160,9 @@ var samplesuitejs = {
         duration: 0,
         state: 'passed',
         speed: 'fast'
-      } ],
+      }],
       pending: false,
-      _beforeEach: [sampletestsjs_hook.raw],
+      _beforeEach: [_sampleTests.hook.raw],
       _beforeAll: [],
       _afterEach: [],
       _afterAll: [],
@@ -170,7 +177,7 @@ var samplesuitejs = {
       delayed: false,
       parent: {
         title: '',
-        suites: [ '[Circular ~]' ],
+        suites: ['[Circular ~]'],
         tests: [],
         pending: [],
         root: true,
@@ -188,7 +195,7 @@ var samplesuitejs = {
     cleaned: {
       title: 'Mochawesome Suite',
       suites: [],
-      tests: [ {
+      tests: [{
         title: 'passing test',
         fullTitle: 'passing test',
         timedOut: false,
@@ -205,8 +212,8 @@ var samplesuitejs = {
         parentUUID: undefined,
         skipped: false,
         isHook: false
-      } ],
-      beforeHooks: [sampletestsjs_hook.cleaned],
+      }],
+      beforeHooks: [_sampleTests.hook.cleaned],
       afterHooks: [],
       pending: [],
       root: false,
@@ -215,10 +222,10 @@ var samplesuitejs = {
       uuid: 'fc3f8bee-4feb-4f28-8e27-a680704c9176',
       fullFile: '',
       file: '',
-      passes: [ 'e061e2eb-e4aa-49e4-b6f3-41bbb23752a9' ],
+      passes: ['e061e2eb-e4aa-49e4-b6f3-41bbb23752a9'],
       failures: [],
       skipped: [],
-      duration: 0,
+      duration: 0
     }
   },
   three: {
@@ -413,7 +420,7 @@ var samplesuitejs_two = {
     }],
 
     pending: false,
-    _beforeEach: [sampletestsjs_hook.raw],
+    _beforeEach: [_sampleTests.hook.raw],
     _beforeAll: [],
     _afterEach: [],
     _afterAll: [],
@@ -468,7 +475,7 @@ var samplesuitejs_two = {
       isHook: false
     }],
 
-    beforeHooks: [sampletestsjs_hook.cleaned],
+    beforeHooks: [_sampleTests.hook.cleaned],
     afterHooks: [],
     pending: [],
     root: false,
@@ -510,4 +517,6 @@ var samplesuitejs_three = {
   cleaned: false
 };
 
-export { samplesuitejs_one as one, samplesuitejs_two as two, samplesuitejs_three as three };
+exports.one = samplesuitejs_one;
+exports.two = samplesuitejs_two;
+exports.three = samplesuitejs_three;

@@ -1,16 +1,25 @@
-import assert from "assert";
+'use strict';
 
-const chance = (percent, passValue, failValue = null) => (
-  Math.random() < percent ? passValue : failValue
-);
+var _assert = require('assert');
+
+var _assert2 = _interopRequireDefault(_assert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var chance = function chance(percent, passValue) {
+  var failValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return Math.random() < percent ? passValue : failValue;
+};
 
 /* Test courtesy of @adaphi */
-describe('mochawesome hook test', () => {
+describe('mochawesome hook test', function () {
   // Change this to drastically alter the memory impact
-  const numTests = 1000;
+  var numTests = 1000;
 
   function genTestBody(opts) {
-    const { skip, pass } = opts;
+    var skip = opts.skip,
+        pass = opts.pass;
+
     return function (done) {
       // This just needs to contain a lot of stuff.
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -46,37 +55,63 @@ describe('mochawesome hook test', () => {
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       if (skip) this.skip();
-      assert(pass);
+      (0, _assert2.default)(pass);
       done();
     };
   }
 
-  before('before hook 1', done => done());
-  before('before hook 2', done => done());
-  before('before hook 3', done => done());
-  before('before hook 4', done => done());
-  before('before hook 5', done => done());
-  before('before hook 6', done => done());
-  before('before hook 7', done => done());
-  before('before hook 8', done => done());
-  beforeEach('beforeEach hook 1', done => done());
-  beforeEach('beforeEach hook 2', done => done());
-  beforeEach('beforeEach hook 3', done => done());
-  beforeEach('beforeEach hook 4', done => done());
-  afterEach('afterEach hook 1', done => done());
-  afterEach('afterEach hook 2', done => done());
-  after('after hook 1', done => done());
-  after('after hook 2', done => done());
+  before('before hook 1', function (done) {
+    return done();
+  });
+  before('before hook 2', function (done) {
+    return done();
+  });
+  before('before hook 3', function (done) {
+    return done();
+  });
+  before('before hook 4', function (done) {
+    return done();
+  });
+  before('before hook 5', function (done) {
+    return done();
+  });
+  before('before hook 6', function (done) {
+    return done();
+  });
+  before('before hook 7', function (done) {
+    return done();
+  });
+  before('before hook 8', function (done) {
+    return done();
+  });
+  beforeEach('beforeEach hook 1', function (done) {
+    return done();
+  });
+  beforeEach('beforeEach hook 2', function (done) {
+    return done();
+  });
+  beforeEach('beforeEach hook 3', function (done) {
+    return done();
+  });
+  beforeEach('beforeEach hook 4', function (done) {
+    return done();
+  });
+  afterEach('afterEach hook 1', function (done) {
+    return done();
+  });
+  afterEach('afterEach hook 2', function (done) {
+    return done();
+  });
+  after('after hook 1', function (done) {
+    return done();
+  });
+  after('after hook 2', function (done) {
+    return done();
+  });
 
-  it(
-    'test failed',
-    genTestBody({ pass: false, skip: false })
-  );
+  it('test failed', genTestBody({ pass: false, skip: false }));
 
-  for (let i = 1; i <= numTests; i++) {
-    it(
-      `test ${i}`,
-      genTestBody({ pass: chance(1, true, false), skip: chance(0, true, false) })
-    );
+  for (var i = 1; i <= numTests; i++) {
+    it('test ' + i, genTestBody({ pass: chance(1, true, false), skip: chance(0, true, false) }));
   }
 });
