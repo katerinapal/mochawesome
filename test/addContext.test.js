@@ -1,4 +1,4 @@
-const addContext = require('../src/addContext');
+import { addContext as addContext_addContextjs } from "../src/addContext";
 
 describe('addContext', () => {
   let testObj;
@@ -44,7 +44,7 @@ describe('addContext', () => {
 
   function contextTests() {
     it('as a string', () => {
-      addContext(testObj, 'test context');
+      addContext_addContextjs(testObj, 'test context');
       test.should.eql({
         ...test,
         context: 'test context'
@@ -52,7 +52,7 @@ describe('addContext', () => {
     });
 
     it('as an object', () => {
-      addContext(testObj, {
+      addContext_addContextjs(testObj, {
         title: 'context title',
         value: true
       });
@@ -66,7 +66,7 @@ describe('addContext', () => {
     });
 
     it('as an object with undefined value', () => {
-      addContext(testObj, {
+      addContext_addContextjs(testObj, {
         title: 'context title',
         value: undefined
       });
@@ -80,9 +80,9 @@ describe('addContext', () => {
     });
 
     it('as multiple items', () => {
-      addContext(testObj, 'test context 1');
-      addContext(testObj, 'test context 2');
-      addContext(testObj, { title: 'test context 3', value: true });
+      addContext_addContextjs(testObj, 'test context 1');
+      addContext_addContextjs(testObj, 'test context 2');
+      addContext_addContextjs(testObj, { title: 'test context 3', value: true });
       test.should.eql({
         ...test,
         context: [
@@ -160,37 +160,37 @@ describe('addContext', () => {
     });
 
     it('wrong number of args', () => {
-      addContext('');
+      addContext_addContextjs('');
       test.should.not.have.property('context');
     });
 
     it('wrong test object', () => {
-      addContext({}, 'test context');
+      addContext_addContextjs({}, 'test context');
       test.should.not.have.property('context');
     });
 
     it('wrong context, empty string', () => {
-      addContext(testObj, '');
+      addContext_addContextjs(testObj, '');
       test.should.not.have.property('context');
     });
 
     it('wrong context object, empty', () => {
-      addContext(testObj, {});
+      addContext_addContextjs(testObj, {});
       test.should.not.have.property('context');
     });
 
     it('wrong context object, no title', () => {
-      addContext(testObj, { value: 'test' });
+      addContext_addContextjs(testObj, { value: 'test' });
       test.should.not.have.property('context');
     });
 
     it('wrong context object, empty title', () => {
-      addContext(testObj, { title: '', value: undefined });
+      addContext_addContextjs(testObj, { title: '', value: undefined });
       test.should.not.have.property('context');
     });
 
     it('wrong context object, no value', () => {
-      addContext(testObj, { title: 'context title' });
+      addContext_addContextjs(testObj, { title: 'context title' });
       test.should.not.have.property('context');
     });
   });

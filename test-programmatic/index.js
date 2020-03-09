@@ -1,7 +1,7 @@
-const Mocha = require('mocha');
-const fs = require('fs');
-const path = require('path');
-require('should');
+import Mocha from "mocha";
+import fs from "fs";
+import path from "path";
+import "should";
 
 // Instantiate a Mocha instance.
 const mocha = new Mocha({
