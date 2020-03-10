@@ -1,4 +1,4 @@
-const addContext = require('../src/addContext');
+import { addContext as addContext_addContextjs } from "../src/addContext";
 
 function retObj() {
   return {
@@ -32,12 +32,12 @@ describe('<Navigation>', () => {
   describe('renders', () => {
     it('should have text context', function (done) {
       (1+1).should.equal(2);
-      addContext(this, 'this is the test context');
+      addContext_addContextjs(this, 'this is the test context');
       done();
     });
     it('should have url context, no protocol', function (done) {
       (1+1).should.equal(2);
-      addContext(this, 'www.apple.com');
+      addContext_addContextjs(this, 'www.apple.com');
       done();
     });
   });
