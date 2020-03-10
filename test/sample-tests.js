@@ -1,8 +1,15 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var sampletestsjs = {
   passing: {
     raw: {
       title: 'passing test',
-      fullTitle: () => 'passing test',
+      fullTitle: function fullTitle() {
+        return 'passing test';
+      },
       body: 'function () {}',
       async: 0,
       sync: true,
@@ -19,7 +26,7 @@ var sampletestsjs = {
         title: 'Mochawesome Suite',
         ctx: {},
         suites: [],
-        tests: [ '[Circular ~]' ],
+        tests: ['[Circular ~]'],
         pending: false,
         _beforeEach: [],
         _beforeAll: [],
@@ -36,7 +43,7 @@ var sampletestsjs = {
         delayed: false,
         parent: {
           title: '',
-          suites: [ '[Circular ~.parent]' ],
+          suites: ['[Circular ~.parent]'],
           tests: [],
           pending: [],
           root: true,
@@ -98,7 +105,7 @@ var sampletestsjs = {
         title: 'Mochawesome Suite',
         ctx: {},
         suites: [],
-        tests: [ '[Circular ~]' ],
+        tests: ['[Circular ~]'],
         pending: false,
         _beforeEach: [],
         _beforeAll: [],
@@ -115,7 +122,7 @@ var sampletestsjs = {
         delayed: false,
         parent: {
           title: '',
-          suites: [ '[Circular ~.parent]' ],
+          suites: ['[Circular ~.parent]'],
           tests: [],
           pending: [],
           root: true,
@@ -193,12 +200,7 @@ var sampletestsjs = {
       err: {
         message: 'AssertionError: { a: 2 } undefined { a: 1 }',
         estack: 'AssertionError: { a: 2 } undefined { a: 1 }',
-        diff: [
-          { count: 7, value: '{\n  "a": ' },
-          { count: 1, added: undefined, removed: true, value: '2' },
-          { count: 1, added: true, removed: undefined, value: '1' },
-          { count: 2, value: '\n}' }
-        ]
+        diff: [{ count: 7, value: '{\n  "a": ' }, { count: 1, added: undefined, removed: true, value: '2' }, { count: 1, added: true, removed: undefined, value: '1' }, { count: 2, value: '\n}' }]
       },
       uuid: '2bcbe88c-acd6-4a53-ba3a-61a59188d5b0',
       parentUUID: '56508f44-b4e6-40f0-bae8-b15e0720f120',
@@ -224,7 +226,7 @@ var sampletestsjs = {
         title: 'Mochawesome Suite',
         ctx: {},
         suites: [],
-        tests: [ '[Circular ~]' ],
+        tests: ['[Circular ~]'],
         pending: false,
         _beforeEach: [],
         _beforeAll: [],
@@ -241,7 +243,7 @@ var sampletestsjs = {
         delayed: false,
         parent: {
           title: '',
-          suites: [ '[Circular ~.parent]' ],
+          suites: ['[Circular ~.parent]'],
           tests: [],
           pending: [],
           root: true,
@@ -320,35 +322,31 @@ var sampletestsjs = {
           test: '[Circular ~]'
         },
         suites: [],
-        tests: [
-          {
-            title: 'passing test',
-            body: 'function (done) {\n      (1 1).should.equal(2);\n      done();\n    }',
-            async: 1,
-            sync: false,
-            _timeout: 2000,
-            _slow: 75,
-            _enableTimeouts: true,
-            timedOut: false,
-            _trace: {},
-            _retries: -1,
-            _currentRetry: 0,
-            pending: false,
-            type: 'test',
-            file: '/Users/adamg/Sites/mafork/test-functional/test-hooks.js',
-            parent: '[Circular ~.parent]',
-            ctx: {
-              currentTest: '[Circular ~.parent.tests.0]',
-              _runnable: '[Circular ~]',
-              test: '[Circular ~]'
-            },
-            uuid: 'fde7ab64-61b9-4c6d-b893-6f013a6317db'
-          }
-        ],
+        tests: [{
+          title: 'passing test',
+          body: 'function (done) {\n      (1 1).should.equal(2);\n      done();\n    }',
+          async: 1,
+          sync: false,
+          _timeout: 2000,
+          _slow: 75,
+          _enableTimeouts: true,
+          timedOut: false,
+          _trace: {},
+          _retries: -1,
+          _currentRetry: 0,
+          pending: false,
+          type: 'test',
+          file: '/Users/adamg/Sites/mafork/test-functional/test-hooks.js',
+          parent: '[Circular ~.parent]',
+          ctx: {
+            currentTest: '[Circular ~.parent.tests.0]',
+            _runnable: '[Circular ~]',
+            test: '[Circular ~]'
+          },
+          uuid: 'fde7ab64-61b9-4c6d-b893-6f013a6317db'
+        }],
         pending: false,
-        _beforeEach: [
-          '[Circular ~]'
-        ],
+        _beforeEach: ['[Circular ~]'],
         _beforeAll: [],
         _afterEach: [],
         _afterAll: [],
@@ -362,9 +360,7 @@ var sampletestsjs = {
         delayed: false,
         parent: {
           title: 'Hooks',
-          suites: [
-            '[Circular ~.parent]'
-          ],
+          suites: ['[Circular ~.parent]'],
           tests: [],
           pending: [],
           root: false,
@@ -403,13 +399,9 @@ var sampletestsjs = {
             title: 'Test Suite - Failed Before Each',
             ctx: '[Circular ~.ctx]',
             suites: [],
-            tests: [
-              '[Circular ~.ctx.currentTest]'
-            ],
+            tests: ['[Circular ~.ctx.currentTest]'],
             pending: false,
-            _beforeEach: [
-              '[Circular ~]'
-            ],
+            _beforeEach: ['[Circular ~]'],
             _beforeAll: [],
             _afterEach: [],
             _afterAll: [],
@@ -423,9 +415,7 @@ var sampletestsjs = {
             delayed: false,
             parent: {
               title: 'Hooks',
-              suites: [
-                '[Circular ~.ctx.currentTest.parent]'
-              ],
+              suites: ['[Circular ~.ctx.currentTest.parent]'],
               tests: [],
               pending: [],
               root: false,
@@ -489,7 +479,9 @@ var sampletestsjs = {
 var sampletestsjs_passing = {
   raw: {
     title: "passing test",
-    fullTitle: () => "passing test",
+    fullTitle: function fullTitle() {
+      return "passing test";
+    },
     body: "function () {}",
     async: 0,
     sync: true,
@@ -1019,4 +1011,7 @@ var sampletestsjs_hook = {
   }
 };
 
-export { sampletestsjs_passing as passing, sampletestsjs_failing as failing, sampletestsjs_pending as pending, sampletestsjs_hook as hook };
+exports.passing = sampletestsjs_passing;
+exports.failing = sampletestsjs_failing;
+exports.pending = sampletestsjs_pending;
+exports.hook = sampletestsjs_hook;

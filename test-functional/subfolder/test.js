@@ -1,11 +1,13 @@
-describe('Subfolder Test Suite', () => {
-  describe('Test Suite - Basic', () => {
-    it('passing test', done => {
+'use strict';
+
+describe('Subfolder Test Suite', function () {
+  describe('Test Suite - Basic', function () {
+    it('passing test', function (done) {
       true.should.be.ok;
       done();
     });
 
-    it('failing test', done => {
+    it('failing test', function (done) {
       false.should.be.ok;
       done();
     });

@@ -1,45 +1,58 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 function stripFunctionStart(input) {
-  const BEGIN = 1;
-  const LBRACE = 2;
-  const EQ = 4;
-  const ARROW = 8;
-  const ARROW_LBRACE = 16;
-  const ARROW_PAREN = 32;
-  const DONE = 64;
+  var BEGIN = 1;
+  var LBRACE = 2;
+  var EQ = 4;
+  var ARROW = 8;
+  var ARROW_LBRACE = 16;
+  var ARROW_PAREN = 32;
+  var DONE = 64;
 
-  const isWhitespace = ch => ch === ' ' || ch === '\t' || ch === '\n';
+  var isWhitespace = function isWhitespace(ch) {
+    return ch === ' ' || ch === '\t' || ch === '\n';
+  };
 
-  const nextState = (state, c) => {
+  var nextState = function nextState(state, c) {
     switch (state) {
-    case BEGIN:
-      switch (c) {
-      case '{': return LBRACE;
-      case '=': return EQ;
-      default: return BEGIN;
-      }
+      case BEGIN:
+        switch (c) {
+          case '{':
+            return LBRACE;
+          case '=':
+            return EQ;
+          default:
+            return BEGIN;
+        }
 
-    case LBRACE:
-      return c === ' ' ? LBRACE : DONE;
+      case LBRACE:
+        return c === ' ' ? LBRACE : DONE;
 
-    case EQ:
-      return c === '>' ? ARROW : BEGIN;
+      case EQ:
+        return c === '>' ? ARROW : BEGIN;
 
-    case ARROW:
-      if (isWhitespace(c)) return ARROW;
-      switch (c) {
-      case '{': return ARROW_LBRACE;
-      case '(': return ARROW_PAREN;
-      default: return DONE;
-      }
+      case ARROW:
+        if (isWhitespace(c)) return ARROW;
+        switch (c) {
+          case '{':
+            return ARROW_LBRACE;
+          case '(':
+            return ARROW_PAREN;
+          default:
+            return DONE;
+        }
 
-    case ARROW_LBRACE:
-    case ARROW_PAREN:
-      return DONE;
+      case ARROW_LBRACE:
+      case ARROW_PAREN:
+        return DONE;
     }
   };
 
-  let state = BEGIN;
-  let pos = 0;
+  var state = BEGIN;
+  var pos = 0;
   while (pos < input.length && state !== DONE) {
     state = nextState(state, input.charAt(pos));
     pos += 1;
@@ -57,4 +70,4 @@ var exported_stripFunctionStart = stripFunctionStart;
  *
  * @return {string}
  */
-export { exported_stripFunctionStart as stripFunctionStart };
+exports.stripFunctionStart = exported_stripFunctionStart;

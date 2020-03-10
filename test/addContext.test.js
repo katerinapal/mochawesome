@@ -1,26 +1,32 @@
-import { addContext as addContext_addContextjs } from "../src/addContext";
+'use strict';
 
-describe('addContext', () => {
-  let testObj;
-  let activeTest;
-  let test;
-  let origConsoleError;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-  const makeHook = type => ({
-    title: `"${type}" hook`,
-    body: 'function () {\n    addContext(this, "i\'m in a before hook");\n  }',
-    async: 0,
-    sync: true,
-    timedOut: false,
-    pending: false,
-    type: 'hook',
-    parent: '#<Suite>',
-    ctx: '#<Context>',
-    file: '/test.js',
-    uuid: '9f4e292c-8668-4008-9dc4-589909f94054'
-  });
+var _addContext = require('../src/addContext');
 
-  beforeEach(() => {
+describe('addContext', function () {
+  var testObj = void 0;
+  var activeTest = void 0;
+  var test = void 0;
+  var origConsoleError = void 0;
+
+  var makeHook = function makeHook(type) {
+    return {
+      title: '"' + type + '" hook',
+      body: 'function () {\n    addContext(this, "i\'m in a before hook");\n  }',
+      async: 0,
+      sync: true,
+      timedOut: false,
+      pending: false,
+      type: 'hook',
+      parent: '#<Suite>',
+      ctx: '#<Context>',
+      file: '/test.js',
+      uuid: '9f4e292c-8668-4008-9dc4-589909f94054'
+    };
+  };
+
+  beforeEach(function () {
     origConsoleError = console.error;
     console.error = function () {};
 
@@ -38,64 +44,56 @@ describe('addContext', () => {
     };
   });
 
-  afterEach(() => {
+  afterEach(function () {
     console.error = origConsoleError;
   });
 
   function contextTests() {
-    it('as a string', () => {
-      addContext_addContextjs(testObj, 'test context');
-      test.should.eql({
-        ...test,
+    it('as a string', function () {
+      (0, _addContext.addContext)(testObj, 'test context');
+      test.should.eql(_extends({}, test, {
         context: 'test context'
-      });
+      }));
     });
 
-    it('as an object', () => {
-      addContext_addContextjs(testObj, {
+    it('as an object', function () {
+      (0, _addContext.addContext)(testObj, {
         title: 'context title',
         value: true
       });
-      test.should.eql({
-        ...test,
+      test.should.eql(_extends({}, test, {
         context: {
           title: 'context title',
           value: true
         }
-      });
+      }));
     });
 
-    it('as an object with undefined value', () => {
-      addContext_addContextjs(testObj, {
+    it('as an object with undefined value', function () {
+      (0, _addContext.addContext)(testObj, {
         title: 'context title',
         value: undefined
       });
-      test.should.eql({
-        ...test,
+      test.should.eql(_extends({}, test, {
         context: {
           title: 'context title',
           value: 'undefined'
         }
-      });
+      }));
     });
 
-    it('as multiple items', () => {
-      addContext_addContextjs(testObj, 'test context 1');
-      addContext_addContextjs(testObj, 'test context 2');
-      addContext_addContextjs(testObj, { title: 'test context 3', value: true });
-      test.should.eql({
-        ...test,
-        context: [
-          'test context 1',
-          'test context 2',
-          { title: 'test context 3', value: true }
-        ]
-      });
+    it('as multiple items', function () {
+      (0, _addContext.addContext)(testObj, 'test context 1');
+      (0, _addContext.addContext)(testObj, 'test context 2');
+      (0, _addContext.addContext)(testObj, { title: 'test context 3', value: true });
+      test.should.eql(_extends({}, test, {
+        context: ['test context 1', 'test context 2', { title: 'test context 3', value: true }]
+      }));
     });
   }
 
-  describe('when run inside a test', () => {
-    beforeEach(() => {
+  describe('when run inside a test', function () {
+    beforeEach(function () {
       testObj = {
         currentTest: undefined,
         test: activeTest
@@ -105,8 +103,8 @@ describe('addContext', () => {
     contextTests();
   });
 
-  describe('when run inside a before', () => {
-    beforeEach(() => {
+  describe('when run inside a before', function () {
+    beforeEach(function () {
       testObj = {
         currentTest: activeTest,
         test: makeHook('before all')
@@ -116,8 +114,8 @@ describe('addContext', () => {
     contextTests();
   });
 
-  describe('when run inside a beforeEach', () => {
-    beforeEach(() => {
+  describe('when run inside a beforeEach', function () {
+    beforeEach(function () {
       testObj = {
         currentTest: activeTest,
         test: makeHook('before each')
@@ -127,8 +125,8 @@ describe('addContext', () => {
     contextTests();
   });
 
-  describe('when run inside an after', () => {
-    beforeEach(() => {
+  describe('when run inside an after', function () {
+    beforeEach(function () {
       testObj = {
         currentTest: activeTest,
         test: makeHook('after all')
@@ -138,8 +136,8 @@ describe('addContext', () => {
     contextTests();
   });
 
-  describe('when run inside an afterEach', () => {
-    beforeEach(() => {
+  describe('when run inside an afterEach', function () {
+    beforeEach(function () {
       testObj = {
         currentTest: activeTest,
         test: makeHook('after each')
@@ -149,8 +147,8 @@ describe('addContext', () => {
     contextTests();
   });
 
-  describe('No context is added when', () => {
-    beforeEach(() => {
+  describe('No context is added when', function () {
+    beforeEach(function () {
       testObj = {
         test: {
           title: 'sample test'
@@ -159,38 +157,38 @@ describe('addContext', () => {
       test = testObj.test;
     });
 
-    it('wrong number of args', () => {
-      addContext_addContextjs('');
+    it('wrong number of args', function () {
+      (0, _addContext.addContext)('');
       test.should.not.have.property('context');
     });
 
-    it('wrong test object', () => {
-      addContext_addContextjs({}, 'test context');
+    it('wrong test object', function () {
+      (0, _addContext.addContext)({}, 'test context');
       test.should.not.have.property('context');
     });
 
-    it('wrong context, empty string', () => {
-      addContext_addContextjs(testObj, '');
+    it('wrong context, empty string', function () {
+      (0, _addContext.addContext)(testObj, '');
       test.should.not.have.property('context');
     });
 
-    it('wrong context object, empty', () => {
-      addContext_addContextjs(testObj, {});
+    it('wrong context object, empty', function () {
+      (0, _addContext.addContext)(testObj, {});
       test.should.not.have.property('context');
     });
 
-    it('wrong context object, no title', () => {
-      addContext_addContextjs(testObj, { value: 'test' });
+    it('wrong context object, no title', function () {
+      (0, _addContext.addContext)(testObj, { value: 'test' });
       test.should.not.have.property('context');
     });
 
-    it('wrong context object, empty title', () => {
-      addContext_addContextjs(testObj, { title: '', value: undefined });
+    it('wrong context object, empty title', function () {
+      (0, _addContext.addContext)(testObj, { title: '', value: undefined });
       test.should.not.have.property('context');
     });
 
-    it('wrong context object, no value', () => {
-      addContext_addContextjs(testObj, { title: 'context title' });
+    it('wrong context object, no value', function () {
+      (0, _addContext.addContext)(testObj, { title: 'context title' });
       test.should.not.have.property('context');
     });
   });

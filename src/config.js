@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 /**
  * Retrieve the value of a user supplied option.
  * Falls back to `defaultValue`
@@ -14,24 +19,20 @@
  * @return {string|boolean}  Option value
  */
 function _getOption(optToGet, options, isBool, defaultValue) {
-  const envVar = `MOCHAWESOME_${optToGet.toUpperCase()}`;
+  var envVar = 'MOCHAWESOME_' + optToGet.toUpperCase();
   if (options && typeof options[optToGet] !== 'undefined') {
-    return (isBool && typeof options[optToGet] === 'string')
-      ? options[optToGet] === 'true'
-      : options[optToGet];
+    return isBool && typeof options[optToGet] === 'string' ? options[optToGet] === 'true' : options[optToGet];
   }
   if (typeof process.env[envVar] !== 'undefined') {
-    return isBool
-      ? process.env[envVar] === 'true'
-      : process.env[envVar];
+    return isBool ? process.env[envVar] === 'true' : process.env[envVar];
   }
   return defaultValue;
 }
 
-var exportedObject = function (opts) {
-  const reporterOpts = (opts && opts.reporterOptions) || {};
-  const code = _getOption('code', reporterOpts, true, true);
-  const noCode = _getOption('no-code', reporterOpts, true, false);
+var exportedObject = function exportedObject(opts) {
+  var reporterOpts = opts && opts.reporterOptions || {};
+  var code = _getOption('code', reporterOpts, true, true);
+  var noCode = _getOption('no-code', reporterOpts, true, false);
 
   return {
     quiet: _getOption('quiet', reporterOpts, true, false),
@@ -44,4 +45,5 @@ var exportedObject = function (opts) {
   };
 };
 
-export { exportedObject as configjs };;
+exports.configjs = exportedObject;
+;

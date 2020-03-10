@@ -1,22 +1,57 @@
-import Base from "mocha/lib/reporters/base";
-import mochaPkg from "mocha/package.json";
-import uuid from "uuid";
-import marge from "mochawesome-report-generator";
-import margePkg from "mochawesome-report-generator/package.json";
-import { configjs as config_configjsjs } from "./config";
-import { utilsjs as utils_utilsjsjs } from "./utils";
-import spec_moduleDefault from "mocha/lib/reporters/spec";
-import statscollector_moduleDefault from "mocha/lib/stats-collector";
-const pkg = require('../package.json');
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Mochawesome = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _base = require("mocha/lib/reporters/base");
+
+var _base2 = _interopRequireDefault(_base);
+
+var _package = require("mocha/package.json");
+
+var _package2 = _interopRequireDefault(_package);
+
+var _uuid = require("uuid");
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+var _mochawesomeReportGenerator = require("mochawesome-report-generator");
+
+var _mochawesomeReportGenerator2 = _interopRequireDefault(_mochawesomeReportGenerator);
+
+var _package3 = require("mochawesome-report-generator/package.json");
+
+var _package4 = _interopRequireDefault(_package3);
+
+var _config = require("./config");
+
+var _utils = require("./utils");
+
+var _spec = require("mocha/lib/reporters/spec");
+
+var _spec2 = _interopRequireDefault(_spec);
+
+var _statsCollector = require("mocha/lib/stats-collector");
+
+var _statsCollector2 = _interopRequireDefault(_statsCollector);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var pkg = require('../package.json');
 
 // Import the utility functions
-const {
-  log,
-  mapSuites
-} = utils_utilsjsjs;
+var log = _utils.utilsjs.log,
+    mapSuites = _utils.utilsjs.mapSuites;
 
 // Track the total number of tests registered
-const totalTestsRegistered = { total: 0 };
+
+var totalTestsRegistered = { total: 0 };
 
 /**
  * Done function gets called before mocha exits
@@ -32,21 +67,22 @@ const totalTestsRegistered = { total: 0 };
  * @return {Promise} Resolves with successful report creation
  */
 function done(output, options, config, failures, exit) {
-  return marge.create(output, options)
-    .then(([ htmlFile, jsonFile ]) => {
-      if (!htmlFile && !jsonFile) {
-        log('No files were generated', 'warn', config);
-      } else {
-        jsonFile && log(`Report JSON saved to ${jsonFile}`, null, config);
-        htmlFile && log(`Report HTML saved to ${htmlFile}`, null, config);
-      }
-    })
-    .catch(err => {
-      log(err, 'error', config);
-    })
-    .then(() => {
-      exit && exit(failures > 0 ? 1 : 0);
-    });
+  return _mochawesomeReportGenerator2.default.create(output, options).then(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+        htmlFile = _ref2[0],
+        jsonFile = _ref2[1];
+
+    if (!htmlFile && !jsonFile) {
+      log('No files were generated', 'warn', config);
+    } else {
+      jsonFile && log("Report JSON saved to " + jsonFile, null, config);
+      htmlFile && log("Report HTML saved to " + htmlFile, null, config);
+    }
+  }).catch(function (err) {
+    log(err, 'error', config);
+  }).then(function () {
+    exit && exit(failures > 0 ? 1 : 0);
+  });
 }
 
 /**
@@ -64,9 +100,9 @@ function consoleReporter(reporter) {
   if (reporter) {
     try {
       // eslint-disable-next-line import/no-dynamic-require
-      return require(`mocha/lib/reporters/${reporter}`);
+      return require("mocha/lib/reporters/" + reporter);
     } catch (e) {
-      log(`Unknown console reporter '${reporter}', defaulting to spec`);
+      log("Unknown console reporter '" + reporter + "', defaulting to spec");
     }
   }
 
@@ -74,56 +110,53 @@ function consoleReporter(reporter) {
 }
 
 function Mochawesome(runner, options) {
+  var _this = this;
+
   // Set the config options
-  this.config = config_configjsjs(options);
+  this.config = (0, _config.configjs)(options);
 
   // Ensure stats collector has been initialized
   if (!runner.stats) {
-    const createStatsCollector = {};
+    var createStatsCollector = {};
     createStatsCollector(runner);
   }
 
   // Reporter options
-  const reporterOptions = {
-    ...options.reporterOptions,
+  var reporterOptions = _extends({}, options.reporterOptions, {
     reportFilename: this.config.reportFilename,
     saveHtml: this.config.saveHtml,
     saveJson: this.config.saveJson
-  };
+  });
 
   // Done function will be called before mocha exits
   // This is where we will save JSON and generate the HTML report
-  this.done = (failures, exit) => done(
-    this.output,
-    reporterOptions,
-    this.config,
-    failures,
-    exit
-  );
+  this.done = function (failures, exit) {
+    return done(_this.output, reporterOptions, _this.config, failures, exit);
+  };
 
   // Reset total tests counter
   totalTestsRegistered.total = 0;
 
   // Call the Base mocha reporter
-  Base.call(this, runner);
+  _base2.default.call(this, runner);
 
-  const reporterName = reporterOptions.consoleReporter;
+  var reporterName = reporterOptions.consoleReporter;
   if (reporterName !== 'none') {
-    const ConsoleReporter = consoleReporter(reporterName);
+    var ConsoleReporter = consoleReporter(reporterName);
     new ConsoleReporter(runner); // eslint-disable-line
   }
 
-  let endCalled = false;
+  var endCalled = false;
 
   // Add a unique identifier to each suite/test/hook
-  [ 'suite', 'test', 'hook', 'pending' ].forEach(type => {
-    runner.on(type, item => {
-      item.uuid = uuid.v4();
+  ['suite', 'test', 'hook', 'pending'].forEach(function (type) {
+    runner.on(type, function (item) {
+      item.uuid = _uuid2.default.v4();
     });
   });
 
   // Process the full suite
-  runner.on('end', () => {
+  runner.on('end', function () {
     try {
       /* istanbul ignore else */
       if (!endCalled) {
@@ -131,48 +164,54 @@ function Mochawesome(runner, options) {
         // so we ensure the suite is processed only once
         endCalled = true;
 
-        const rootSuite = mapSuites(this.runner.suite, totalTestsRegistered, this.config);
+        var rootSuite = mapSuites(_this.runner.suite, totalTestsRegistered, _this.config);
 
-        const obj = {
-          stats: this.stats,
-          results: [ rootSuite ],
+        var obj = {
+          stats: _this.stats,
+          results: [rootSuite],
           meta: {
             mocha: {
-              version: mochaPkg.version
+              version: _package2.default.version
             },
             mochawesome: {
-              options: this.config,
+              options: _this.config,
               version: pkg.version
             },
             marge: {
               options: options.reporterOptions,
-              version: margePkg.version
+              version: _package4.default.version
             }
           }
         };
 
         obj.stats.testsRegistered = totalTestsRegistered.total;
 
-        const { passes, failures, pending, tests, testsRegistered } = obj.stats;
-        const passPercentage = (passes / (testsRegistered - pending)) * 100;
-        const pendingPercentage = (pending / testsRegistered) * 100;
+        var _obj$stats = obj.stats,
+            passes = _obj$stats.passes,
+            failures = _obj$stats.failures,
+            pending = _obj$stats.pending,
+            tests = _obj$stats.tests,
+            testsRegistered = _obj$stats.testsRegistered;
+
+        var passPercentage = passes / (testsRegistered - pending) * 100;
+        var pendingPercentage = pending / testsRegistered * 100;
 
         obj.stats.passPercent = passPercentage;
         obj.stats.pendingPercent = pendingPercentage;
-        obj.stats.other = (passes + failures + pending) - tests; // Failed hooks
+        obj.stats.other = passes + failures + pending - tests; // Failed hooks
         obj.stats.hasOther = obj.stats.other > 0;
         obj.stats.skipped = testsRegistered - tests;
         obj.stats.hasSkipped = obj.stats.skipped > 0;
         obj.stats.failures -= obj.stats.other;
 
         // Save the final output to be used in the done function
-        this.output = obj;
+        _this.output = obj;
       }
     } catch (e) {
       // required because thrown errors are not handled directly in the
       // event emitter pattern and mocha does not have an "on error"
       /* istanbul ignore next */
-      log(`Problem with mochawesome: ${e.stack}`, 'error');
+      log("Problem with mochawesome: " + e.stack, 'error');
     }
   });
 }
@@ -185,4 +224,4 @@ var exported_Mochawesome = Mochawesome;
  * @param {Runner} runner
  * @api public
  */
-export { exported_Mochawesome as Mochawesome };
+exports.Mochawesome = exported_Mochawesome;

@@ -1,7 +1,10 @@
-import { addContext as addContext_addContextjs } from "./src/addContext";
+"use strict";
+
+var _addContext = require("./src/addContext");
+
 /*
  * Export addContext function
  *
  */
 
-module.exports = addContext_addContextjs;
+module.exports = _addContext.addContext;

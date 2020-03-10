@@ -1,13 +1,53 @@
-import isString from "lodash.isstring";
-import isFunction from "lodash.isfunction";
-import isEmpty from "lodash.isempty";
-import chalk from "chalk";
-import uuid from "uuid";
-import mochaUtils from "mocha/lib/utils";
-import stringify from "json-stringify-safe";
-import diff from "diff";
-import stripAnsi from "strip-ansi";
-import { stripFunctionStart as stripFnStart_stripFunctionStartjs } from "./stripFnStart";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.utilsjs = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _lodash = require("lodash.isstring");
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require("lodash.isfunction");
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = require("lodash.isempty");
+
+var _lodash6 = _interopRequireDefault(_lodash5);
+
+var _chalk = require("chalk");
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
+var _uuid = require("uuid");
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+var _utils = require("mocha/lib/utils");
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _jsonStringifySafe = require("json-stringify-safe");
+
+var _jsonStringifySafe2 = _interopRequireDefault(_jsonStringifySafe);
+
+var _diff = require("diff");
+
+var _diff2 = _interopRequireDefault(_diff);
+
+var _stripAnsi = require("strip-ansi");
+
+var _stripAnsi2 = _interopRequireDefault(_stripAnsi);
+
+var _stripFnStart = require("./stripFnStart");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Return a classname based on percentage
@@ -19,12 +59,12 @@ import { stripFunctionStart as stripFnStart_stripFunctionStartjs } from "./strip
 function log(msg, level, config) {
   // Don't log messages in quiet mode
   if (config && config.quiet) return;
-  const logMethod = console[level] || console.log;
-  let out = msg;
-  if (typeof msg === 'object') {
-    out = stringify(msg, null, 2);
+  var logMethod = console[level] || console.log;
+  var out = msg;
+  if ((typeof msg === "undefined" ? "undefined" : _typeof(msg)) === 'object') {
+    out = (0, _jsonStringifySafe2.default)(msg, null, 2);
   }
-  logMethod(`[${chalk.gray('mochawesome')}] ${out}\n`);
+  logMethod("[" + _chalk2.default.gray('mochawesome') + "] " + out + "\n");
 }
 
 /**
@@ -36,20 +76,19 @@ function log(msg, level, config) {
  * @return {String} cleaned code string
  */
 function cleanCode(str) {
-  str = str
-    .replace(/\r\n|[\r\n\u2028\u2029]/g, '\n') // unify linebreaks
-    .replace(/^\uFEFF/, ''); // replace zero-width no-break space
+  str = str.replace(/\r\n|[\r\n\u2028\u2029]/g, '\n') // unify linebreaks
+  .replace(/^\uFEFF/, ''); // replace zero-width no-break space
 
-  str = stripFnStart_stripFunctionStartjs(str) // replace function declaration
-    .replace(/\)\s*\)\s*$/, ')') // replace closing paren
-    .replace(/\s*};?\s*$/, ''); // replace closing bracket
+  str = (0, _stripFnStart.stripFunctionStart)(str) // replace function declaration
+  .replace(/\)\s*\)\s*$/, ')') // replace closing paren
+  .replace(/\s*};?\s*$/, ''); // replace closing bracket
 
   // Preserve indentation by finding leading tabs/spaces
   // and removing that amount of space from each line
-  const spaces = str.match(/^\n?( *)/)[1].length;
-  const tabs = str.match(/^\n?(\t*)/)[1].length;
+  var spaces = str.match(/^\n?( *)/)[1].length;
+  var tabs = str.match(/^\n?(\t*)/)[1].length;
   /* istanbul ignore next */
-  const indentRegex = new RegExp(`^\n?${tabs ? '\t' : ' '}{${tabs || spaces}}`, 'gm');
+  var indentRegex = new RegExp("^\n?" + (tabs ? '\t' : ' ') + "{" + (tabs || spaces) + "}", 'gm');
 
   str = str.replace(indentRegex, '').trim();
   return str;
@@ -64,21 +103,21 @@ function cleanCode(str) {
  *
  * @return {string} diff
  */
-function createUnifiedDiff({ actual, expected }) {
-  return diff.createPatch('string', actual, expected)
-    .split('\n')
-    .splice(4)
-    .map(line => {
-      if (line.match(/@@/)) {
-        return null;
-      }
-      if (line.match(/\\ No newline/)) {
-        return null;
-      }
-      return line.replace(/^(-|\+)/, '$1 ');
-    })
-    .filter(line => typeof line !== 'undefined' && line !== null)
-    .join('\n');
+function createUnifiedDiff(_ref) {
+  var actual = _ref.actual,
+      expected = _ref.expected;
+
+  return _diff2.default.createPatch('string', actual, expected).split('\n').splice(4).map(function (line) {
+    if (line.match(/@@/)) {
+      return null;
+    }
+    if (line.match(/\\ No newline/)) {
+      return null;
+    }
+    return line.replace(/^(-|\+)/, '$1 ');
+  }).filter(function (line) {
+    return typeof line !== 'undefined' && line !== null;
+  }).join('\n');
 }
 
 /**
@@ -90,8 +129,11 @@ function createUnifiedDiff({ actual, expected }) {
  *
  * @return {array} diff string objects
  */
-function createInlineDiff({ actual, expected }) {
-  return diff.diffWordsWithSpace(actual, expected);
+function createInlineDiff(_ref2) {
+  var actual = _ref2.actual,
+      expected = _ref2.expected;
+
+  return _diff2.default.diffWordsWithSpace(actual, expected);
 }
 
 /**
@@ -102,24 +144,30 @@ function createInlineDiff({ actual, expected }) {
  * @return {Object} normalized error
  */
 function normalizeErr(err, config) {
-  const { name, message, actual, expected, stack, showDiff } = err;
-  let errMessage;
-  let errDiff;
+  var name = err.name,
+      message = err.message,
+      actual = err.actual,
+      expected = err.expected,
+      stack = err.stack,
+      showDiff = err.showDiff;
+
+  var errMessage = void 0;
+  var errDiff = void 0;
 
   /**
    * Check that a / b have the same type.
    */
   function sameType(a, b) {
-    const objToString = Object.prototype.toString;
+    var objToString = Object.prototype.toString;
     return objToString.call(a) === objToString.call(b);
   }
 
   // Format actual/expected for creating diff
   if (showDiff !== false && sameType(actual, expected) && expected !== undefined) {
     /* istanbul ignore if */
-    if (!(isString(actual) && isString(expected))) {
-      err.actual = mochaUtils.stringify(actual);
-      err.expected = mochaUtils.stringify(expected);
+    if (!((0, _lodash2.default)(actual) && (0, _lodash2.default)(expected))) {
+      err.actual = _utils2.default.stringify(actual);
+      err.expected = _utils2.default.stringify(expected);
     }
     errDiff = config.useInlineDiffs ? createInlineDiff(err) : createUnifiedDiff(err);
   }
@@ -127,14 +175,14 @@ function normalizeErr(err, config) {
   // Assertion libraries do not output consitent error objects so in order to
   // get a consistent message object we need to create it ourselves
   if (name && message) {
-    errMessage = `${name}: ${stripAnsi(message)}`;
+    errMessage = name + ": " + (0, _stripAnsi2.default)(message);
   } else if (stack) {
     errMessage = stack.replace(/\n.*/g, '');
   }
 
   return {
     message: errMessage,
-    estack: stack && stripAnsi(stack),
+    estack: stack && (0, _stripAnsi2.default)(stack),
     diff: errDiff
   };
 }
@@ -148,15 +196,13 @@ function normalizeErr(err, config) {
  * @return {Object} cleaned test
  */
 function cleanTest(test, config) {
-  const code = config.code ? (test.body || '') : '';
+  var code = config.code ? test.body || '' : '';
 
-  const fullTitle = isFunction(test.fullTitle)
-    ? stripAnsi(test.fullTitle())
-    : stripAnsi(test.title);
+  var fullTitle = (0, _lodash4.default)(test.fullTitle) ? (0, _stripAnsi2.default)(test.fullTitle()) : (0, _stripAnsi2.default)(test.title);
 
-  const cleaned = {
-    title: stripAnsi(test.title),
-    fullTitle,
+  var cleaned = {
+    title: (0, _stripAnsi2.default)(test.title),
+    fullTitle: fullTitle,
     timedOut: test.timedOut,
     duration: test.duration || 0,
     state: test.state,
@@ -164,15 +210,15 @@ function cleanTest(test, config) {
     pass: test.state === 'passed',
     fail: test.state === 'failed',
     pending: test.pending,
-    context: stringify(test.context, null, 2),
+    context: (0, _jsonStringifySafe2.default)(test.context, null, 2),
     code: code && cleanCode(code),
-    err: (test.err && normalizeErr(test.err, config)) || {},
-    uuid: test.uuid || /* istanbul ignore next: default */uuid.v4(),
+    err: test.err && normalizeErr(test.err, config) || {},
+    uuid: test.uuid || /* istanbul ignore next: default */_uuid2.default.v4(),
     parentUUID: test.parent && test.parent.uuid,
     isHook: test.type === 'hook'
   };
 
-  cleaned.skipped = (!cleaned.pass && !cleaned.fail && !cleaned.pending && !cleaned.isHook);
+  cleaned.skipped = !cleaned.pass && !cleaned.fail && !cleaned.pending && !cleaned.isHook;
 
   return cleaned;
 }
@@ -187,22 +233,22 @@ function cleanTest(test, config) {
  * @return {Object|boolean} cleaned suite or false if suite is empty
  */
 function cleanSuite(suite, totalTestsRegistered, config) {
-  let duration = 0;
-  const passingTests = [];
-  const failingTests = [];
-  const pendingTests = [];
-  const skippedTests = [];
+  var duration = 0;
+  var passingTests = [];
+  var failingTests = [];
+  var pendingTests = [];
+  var skippedTests = [];
 
-  const beforeHooks = [].concat(
-    suite._beforeAll, suite._beforeEach
-  ).map(test => cleanTest(test, config));
+  var beforeHooks = [].concat(suite._beforeAll, suite._beforeEach).map(function (test) {
+    return cleanTest(test, config);
+  });
 
-  const afterHooks = [].concat(
-    suite._afterAll, suite._afterEach
-  ).map(test => cleanTest(test, config));
+  var afterHooks = [].concat(suite._afterAll, suite._afterEach).map(function (test) {
+    return cleanTest(test, config);
+  });
 
-  const tests = suite.tests.map(test => {
-    const cleanedTest = cleanTest(test, config);
+  var tests = suite.tests.map(function (test) {
+    var cleanedTest = cleanTest(test, config);
     duration += test.duration || 0;
     if (cleanedTest.state === 'passed') passingTests.push(cleanedTest.uuid);
     if (cleanedTest.state === 'failed') failingTests.push(cleanedTest.uuid);
@@ -213,29 +259,26 @@ function cleanSuite(suite, totalTestsRegistered, config) {
 
   totalTestsRegistered.total += tests.length;
 
-  const cleaned = {
-    uuid: suite.uuid || /* istanbul ignore next: default */uuid.v4(),
-    title: stripAnsi(suite.title),
+  var cleaned = {
+    uuid: suite.uuid || /* istanbul ignore next: default */_uuid2.default.v4(),
+    title: (0, _stripAnsi2.default)(suite.title),
     fullFile: suite.file || '',
     file: suite.file ? suite.file.replace(process.cwd(), '') : '',
-    beforeHooks,
-    afterHooks,
-    tests,
+    beforeHooks: beforeHooks,
+    afterHooks: afterHooks,
+    tests: tests,
     suites: suite.suites,
     passes: passingTests,
     failures: failingTests,
     pending: pendingTests,
     skipped: skippedTests,
-    duration,
+    duration: duration,
     root: suite.root,
     rootEmpty: suite.root && tests.length === 0,
     _timeout: suite._timeout
   };
 
-  const isEmptySuite = isEmpty(cleaned.suites)
-    && isEmpty(cleaned.tests)
-    && isEmpty(cleaned.beforeHooks)
-    && isEmpty(cleaned.afterHooks);
+  var isEmptySuite = (0, _lodash6.default)(cleaned.suites) && (0, _lodash6.default)(cleaned.tests) && (0, _lodash6.default)(cleaned.beforeHooks) && (0, _lodash6.default)(cleaned.afterHooks);
 
   return !isEmptySuite && cleaned;
 }
@@ -250,23 +293,23 @@ function cleanSuite(suite, totalTestsRegistered, config) {
  * @param {Object} config         Reporter configuration
  */
 function mapSuites(suite, totalTestsReg, config) {
-  const suites = suite.suites.reduce((acc, subSuite) => {
-    const mappedSuites = mapSuites(subSuite, totalTestsReg, config);
+  var suites = suite.suites.reduce(function (acc, subSuite) {
+    var mappedSuites = mapSuites(subSuite, totalTestsReg, config);
     if (mappedSuites) {
       acc.push(mappedSuites);
     }
     return acc;
   }, []);
-  const toBeCleaned = { ...suite, suites };
+  var toBeCleaned = _extends({}, suite, { suites: suites });
   return cleanSuite(toBeCleaned, totalTestsReg, config);
 }
 
 var utilsjs = {
-  log,
-  cleanCode,
-  cleanTest,
-  cleanSuite,
-  mapSuites
+  log: log,
+  cleanCode: cleanCode,
+  cleanTest: cleanTest,
+  cleanSuite: cleanSuite,
+  mapSuites: mapSuites
 };
 
-export { utilsjs };
+exports.utilsjs = utilsjs;
