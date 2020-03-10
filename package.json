@@ -1,74 +1,101 @@
 {
-  "name": "mochawesome",
-  "version": "5.0.0",
-  "description": "A gorgeous reporter for Mocha.js",
-  "scripts": {
-    "lint": "eslint src test",
-    "test": "cross-env NODE_ENV=test nyc mocha --config test/.mocharc.json",
-    "test:fn": "mocha test-functional/test.js --config test-functional/.mocharc.json",
-    "test:prog": "node ./test-programmatic",
-    "test:mem": "mocha test-functional/mem-test.js --config test-functional/.mocharc.json",
-    "test:ctx": "mocha test-functional/test-context.js --config test-functional/.mocharc.json",
-    "tdd": "npm run lint && cross-env NODE_ENV=test nyc mocha --watch",
-    "prepack": "npm run test"
-  },
-  "author": "Adam Gruber",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/adamgruber/mochawesome"
-  },
-  "keywords": [
-    "mocha",
-    "reporter",
-    "json",
-    "html"
-  ],
-  "main": "src/mochawesome.js",
-  "files": [
-    "addContext.js",
-    "src"
-  ],
-  "nyc": {
-    "include": [
-      "src/*.js"
+    "name": "mochawesome",
+    "version": "5.0.0",
+    "description": "A gorgeous reporter for Mocha.js",
+    "scripts": {
+        "lint": "eslint src test",
+        "test": "cross-env NODE_ENV=test nyc mocha --config test/.mocharc.json",
+        "test:fn": "mocha test-functional/test.js --config test-functional/.mocharc.json",
+        "test:prog": "node ./test-programmatic",
+        "test:mem": "mocha test-functional/mem-test.js --config test-functional/.mocharc.json",
+        "test:ctx": "mocha test-functional/test-context.js --config test-functional/.mocharc.json",
+        "tdd": "npm run lint && cross-env NODE_ENV=test nyc mocha --watch",
+        "prepack": "npm run test",
+        "compile-testsamplesuitejs": "babel test\\sample-suite.js -o test\\sample-suite.js --require babel-polyfill --presets env",
+        "compile-testsampletestsjs": "babel test\\sample-tests.js -o test\\sample-tests.js --require babel-polyfill --presets env",
+        "compile-testreportertestjs": "babel test\\reporter.test.js -o test\\reporter.test.js --require babel-polyfill --presets env",
+        "compile-testfunctionaltestcontextjs": "babel test-functional\\test-context.js -o test-functional\\test-context.js --require babel-polyfill --presets env",
+        "compile-testprogrammaticindexjs": "babel test-programmatic\\index.js -o test-programmatic\\index.js --require babel-polyfill --presets env",
+        "compile-srcaddContextjs": "babel src\\addContext.js -o src\\addContext.js --require babel-polyfill --presets env",
+        "compile-srcutilsjs": "babel src\\utils.js -o src\\utils.js --require babel-polyfill --presets env",
+        "compile-testfunctionalmemtestjs": "babel test-functional\\mem-test.js -o test-functional\\mem-test.js --require babel-polyfill --presets env",
+        "compile-addContextjs": "babel addContext.js -o addContext.js --require babel-polyfill --presets env",
+        "compile-srcconfigjs": "babel src\\config.js -o src\\config.js --require babel-polyfill --presets env",
+        "compile-srcmochawesomejs": "babel src\\mochawesome.js -o src\\mochawesome.js --require babel-polyfill --presets env",
+        "compile-testaddContexttestjs": "babel test\\addContext.test.js -o test\\addContext.test.js --require babel-polyfill --presets env",
+        "compile-testutilstestjs": "babel test\\utils.test.js -o test\\utils.test.js --require babel-polyfill --presets env",
+        "compile-testfunctionalsubfoldertestjs": "babel test-functional\\subfolder\\test.js -o test-functional\\subfolder\\test.js --require babel-polyfill --presets env",
+        "compile-testfunctionaltestjs": "babel test-functional\\test.js -o test-functional\\test.js --require babel-polyfill --presets env",
+        "compile-srcstripFnStartjs": "babel src\\stripFnStart.js -o src\\stripFnStart.js --require babel-polyfill --presets env",
+        "compile-testfunctionalrealishexamplejs": "babel test-functional\\realish-example.js -o test-functional\\realish-example.js --require babel-polyfill --presets env",
+        "compile-1_script": "npm run compile-testsamplesuitejs && npm run compile-testsampletestsjs && npm run compile-testreportertestjs && npm run compile-testfunctionaltestcontextjs && npm run compile-testprogrammaticindexjs && npm run compile-srcaddContextjs && npm run compile-srcutilsjs && npm run compile-testfunctionalmemtestjs && npm run compile-addContextjs && npm run compile-srcconfigjs && npm run compile-srcmochawesomejs && npm run compile-testaddContexttestjs && npm run compile-testutilstestjs && npm run compile-testfunctionalsubfoldertestjs && npm run compile-testfunctionaltestjs && npm run compile-srcstripFnStartjs && npm run compile-testfunctionalrealishexamplejs",
+        "compile": "npm run compile-1_script"
+    },
+    "author": "Adam Gruber",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/adamgruber/mochawesome"
+    },
+    "keywords": [
+        "mocha",
+        "reporter",
+        "json",
+        "html"
     ],
-    "reporter": [
-      "lcov",
-      "html",
-      "text-summary"
+    "main": "src/mochawesome.js",
+    "files": [
+        "addContext.js",
+        "src"
     ],
-    "cache": false,
-    "check-coverage": true,
-    "lines": 99,
-    "statements": 99,
-    "functions": 100,
-    "branches": 90
-  },
-  "dependencies": {
-    "chalk": "^3.0.0",
-    "diff": "^4.0.1",
-    "json-stringify-safe": "^5.0.1",
-    "lodash.isempty": "^4.4.0",
-    "lodash.isfunction": "^3.0.9",
-    "lodash.isobject": "^3.0.2",
-    "lodash.isstring": "^4.0.1",
-    "mochawesome-report-generator": "^4.1.0",
-    "strip-ansi": "^6.0.0",
-    "uuid": "^7.0.0"
-  },
-  "peerDependencies": {
-    "mocha": ">=7"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.0",
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "mocha": ">=5",
-    "nyc": "^15.0.0",
-    "proxyquire": "^2.1.0",
-    "should": "^13.2.3",
-    "sinon": "^9.0.0"
-  }
+    "nyc": {
+        "include": [
+            "src/*.js"
+        ],
+        "reporter": [
+            "lcov",
+            "html",
+            "text-summary"
+        ],
+        "cache": false,
+        "check-coverage": true,
+        "lines": 99,
+        "statements": 99,
+        "functions": 100,
+        "branches": 90
+    },
+    "dependencies": {
+        "chalk": "^3.0.0",
+        "diff": "^4.0.1",
+        "json-stringify-safe": "^5.0.1",
+        "lodash.isempty": "^4.4.0",
+        "lodash.isfunction": "^3.0.9",
+        "lodash.isobject": "^3.0.2",
+        "lodash.isstring": "^4.0.1",
+        "mochawesome-report-generator": "^4.1.0",
+        "strip-ansi": "^6.0.0",
+        "uuid": "^7.0.0"
+    },
+    "peerDependencies": {
+        "mocha": ">=7"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.0",
+        "eslint": "^6.5.1",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-plugin-import": "^2.14.0",
+        "mocha": ">=5",
+        "nyc": "^15.0.0",
+        "proxyquire": "^2.1.0",
+        "should": "^13.2.3",
+        "sinon": "^9.0.0",
+        "babel-cli": "latest",
+        "babel-core": "latest",
+        "babel-plugin-add-module-exports": "latest",
+        "babel-plugin-transform-es2015-modules-commonjs": "latest",
+        "babel-polyfill": "latest",
+        "transform-object-rest-spread": "latest",
+        "babel-preset-env": "latest",
+        "babel-preset-es2015-without-strict": "latest"
+    }
 }

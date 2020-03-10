@@ -28,7 +28,7 @@ function _getOption(optToGet, options, isBool, defaultValue) {
   return defaultValue;
 }
 
-module.exports = function (opts) {
+var exportedObject = function (opts) {
   const reporterOpts = (opts && opts.reporterOptions) || {};
   const code = _getOption('code', reporterOpts, true, true);
   const noCode = _getOption('no-code', reporterOpts, true, false);
@@ -43,3 +43,5 @@ module.exports = function (opts) {
     code: noCode ? false : code
   };
 };
+
+export { exportedObject as configjs };;

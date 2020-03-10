@@ -1,7 +1,18 @@
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
-const sampleTests = require('./sample-tests');
-const sampleSuite = require('./sample-suite');
+import sinon from "sinon";
+import proxyquire from "proxyquire";
+
+import {
+  passing as sampletestsjs_passing,
+  failing as sampletestsjs_failing,
+  pending as sampletestsjs_pending,
+  hook as sampletestsjs_hook,
+} from "./sample-tests";
+
+import {
+  one as samplesuitejs_one,
+  two as samplesuitejs_two,
+  three as samplesuitejs_three,
+} from "./sample-suite";
 
 const utils = proxyquire('../src/utils', {
   uuid: { v4: () => 'fc3f8bee-4feb-4f28-8e27-a680704c9176' }
@@ -12,7 +23,7 @@ const {
   cleanCode,
   cleanTest,
   cleanSuite
-} = utils;
+} = utils.utilsjs;
 
 describe('Mochawesome Utils', () => {
   describe('log', () => {
@@ -199,37 +210,37 @@ describe('Mochawesome Utils', () => {
     ];
 
     it('returns cleaned passing test', () => {
-      const cleaned = cleanTest(sampleTests.passing.raw, config);
+      const cleaned = cleanTest(sampletestsjs_passing.raw, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleTests.passing.cleaned);
+      cleaned.should.deepEqual(sampletestsjs_passing.cleaned);
     });
 
     it('returns cleaned failing test', () => {
-      const cleaned = cleanTest(sampleTests.failing.raw, config);
+      const cleaned = cleanTest(sampletestsjs_failing.raw, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleTests.failing.cleaned);
+      cleaned.should.deepEqual(sampletestsjs_failing.cleaned);
     });
 
     it('returns cleaned failing test with inline diff', () => {
-      const cleaned = cleanTest(sampleTests.failing.raw, { code: true, useInlineDiffs: true });
+      const cleaned = cleanTest(sampletestsjs_failing.raw, { code: true, useInlineDiffs: true });
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleTests.failing.cleanedWithInlineDiff);
+      cleaned.should.deepEqual(sampletestsjs_failing.cleanedWithInlineDiff);
     });
 
     it('returns cleaned pending test', () => {
-      const cleaned = cleanTest(sampleTests.pending.raw, config);
+      const cleaned = cleanTest(sampletestsjs_pending.raw, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleTests.pending.cleaned);
+      cleaned.should.deepEqual(sampletestsjs_pending.cleaned);
     });
 
     it('returns cleaned hook', () => {
-      const cleaned = cleanTest(sampleTests.hook.raw, config);
+      const cleaned = cleanTest(sampletestsjs_hook.raw, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleTests.hook.cleaned);
+      cleaned.should.deepEqual(sampletestsjs_hook.cleaned);
     });
 
     it('returns cleaned test when `code` is `false`', () => {
-      const cleaned = cleanTest(sampleTests.hook.raw, { code: false });
+      const cleaned = cleanTest(sampletestsjs_hook.raw, { code: false });
       cleaned.should.have.properties(expectedProps);
       cleaned.code.should.equal('');
     });
@@ -258,20 +269,20 @@ describe('Mochawesome Utils', () => {
     ];
 
     it('cleans a root suite', () => {
-      const cleaned = cleanSuite(sampleSuite.one.raw, totalTestsRegistered, config);
+      const cleaned = cleanSuite(samplesuitejs_one.raw, totalTestsRegistered, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleSuite.one.cleaned);
+      cleaned.should.deepEqual(samplesuitejs_one.cleaned);
     });
 
     it('cleans a non-root suite', () => {
-      const cleaned = cleanSuite(sampleSuite.two.raw, totalTestsRegistered, config);
+      const cleaned = cleanSuite(samplesuitejs_two.raw, totalTestsRegistered, config);
       cleaned.should.have.properties(expectedProps);
-      cleaned.should.deepEqual(sampleSuite.two.cleaned);
+      cleaned.should.deepEqual(samplesuitejs_two.cleaned);
     });
 
     it('cleans an empty suite', () => {
-      const cleaned = cleanSuite(sampleSuite.three.raw, totalTestsRegistered, config);
-      cleaned.should.equal(sampleSuite.three.cleaned);
+      const cleaned = cleanSuite(samplesuitejs_three.raw, totalTestsRegistered, config);
+      cleaned.should.equal(samplesuitejs_three.cleaned);
     });
   });
 });

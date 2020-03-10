@@ -1,11 +1,3 @@
-/* eslint-disable consistent-return */
-/**
- * Strip start of function
- *
- * @param {string} input
- *
- * @return {string}
- */
 function stripFunctionStart(input) {
   const BEGIN = 1;
   const LBRACE = 2;
@@ -55,4 +47,14 @@ function stripFunctionStart(input) {
   return state === DONE ? input.slice(pos - 1) : input;
 }
 
-module.exports = stripFunctionStart;
+var exported_stripFunctionStart = stripFunctionStart;
+
+/* eslint-disable consistent-return */
+/**
+ * Strip start of function
+ *
+ * @param {string} input
+ *
+ * @return {string}
+ */
+export { exported_stripFunctionStart as stripFunctionStart };

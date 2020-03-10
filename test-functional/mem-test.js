@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from "assert";
 
 const chance = (percent, passValue, failValue = null) => (
   Math.random() < percent ? passValue : failValue

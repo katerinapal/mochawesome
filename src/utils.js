@@ -1,13 +1,13 @@
-const isString = require('lodash.isstring');
-const isFunction = require('lodash.isfunction');
-const isEmpty = require('lodash.isempty');
-const chalk = require('chalk');
-const uuid = require('uuid');
-const mochaUtils = require('mocha/lib/utils');
-const stringify = require('json-stringify-safe');
-const diff = require('diff');
-const stripAnsi = require('strip-ansi');
-const stripFnStart = require('./stripFnStart');
+import isString from "lodash.isstring";
+import isFunction from "lodash.isfunction";
+import isEmpty from "lodash.isempty";
+import chalk from "chalk";
+import uuid from "uuid";
+import mochaUtils from "mocha/lib/utils";
+import stringify from "json-stringify-safe";
+import diff from "diff";
+import stripAnsi from "strip-ansi";
+import { stripFunctionStart as stripFnStart_stripFunctionStartjs } from "./stripFnStart";
 
 /**
  * Return a classname based on percentage
@@ -40,7 +40,7 @@ function cleanCode(str) {
     .replace(/\r\n|[\r\n\u2028\u2029]/g, '\n') // unify linebreaks
     .replace(/^\uFEFF/, ''); // replace zero-width no-break space
 
-  str = stripFnStart(str) // replace function declaration
+  str = stripFnStart_stripFunctionStartjs(str) // replace function declaration
     .replace(/\)\s*\)\s*$/, ')') // replace closing paren
     .replace(/\s*};?\s*$/, ''); // replace closing bracket
 
@@ -261,10 +261,12 @@ function mapSuites(suite, totalTestsReg, config) {
   return cleanSuite(toBeCleaned, totalTestsReg, config);
 }
 
-module.exports = {
+var utilsjs = {
   log,
   cleanCode,
   cleanTest,
   cleanSuite,
   mapSuites
 };
+
+export { utilsjs };

@@ -1,9 +1,10 @@
-const Mocha = require('mocha');
-const createStatsCollector = require('mocha/lib/stats-collector');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
-const Assert = require('assert').AssertionError;
-const utils = require('../src/utils');
+import Mocha from "mocha";
+import createStatsCollector from "mocha/lib/stats-collector";
+import sinon from "sinon";
+import proxyquire from "proxyquire";
+import assert_AssertionError from "assert";
+import { utilsjs as utils_utilsjsjs } from "../src/utils";
+const Assert = assert_AssertionError.AssertionError;
 
 const { Runner, Suite, Test } = Mocha;
 const makeTest = (title, doneFn) => new Test(title, doneFn);
@@ -14,7 +15,7 @@ const specStub = sinon.stub();
 const nyanStub = sinon.stub();
 const statsCollectorStub = sinon.stub();
 
-utils.log = logStub;
+utils_utilsjsjs.log = logStub;
 
 const baseConfig = {
   quiet: false,
@@ -33,7 +34,7 @@ const mochawesome = proxyquire('../src/mochawesome', {
   'mocha/lib/reporters/spec': specStub,
   'mocha/lib/reporters/nyan': nyanStub,
   'mocha/lib/stats-collector': statsCollectorStub,
-  './utils': utils
+  './utils': utils_utilsjsjs
 });
 
 describe('Mochawesome Reporter', () => {
@@ -44,7 +45,7 @@ describe('Mochawesome Reporter', () => {
   let mochaReporter;
 
   beforeEach(() => {
-    mocha = new Mocha({ reporter: mochawesome });
+    mocha = new Mocha({ reporter: mochawesome.Mochawesome });
     suite = new Suite('', 'root');
     subSuite = new Suite('Mochawesome Suite', 'root');
     suite.addSuite(subSuite);
