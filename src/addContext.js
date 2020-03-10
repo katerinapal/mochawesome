@@ -1,7 +1,7 @@
-const isObject = require('lodash.isobject');
-const isEmpty = require('lodash.isempty');
-const chalk = require('chalk');
-const stringify = require('json-stringify-safe');
+import isObject from "lodash.isobject";
+import isEmpty from "lodash.isempty";
+import chalk from "chalk";
+import stringify from "json-stringify-safe";
 
 const errorPrefix = 'Error adding context:';
 const ERRORS = {
@@ -37,35 +37,6 @@ function _isValidContext(ctx) {
   return ((typeof ctx === 'string') && !isEmpty(ctx))
     || (Object.hasOwnProperty.call(ctx, 'title') && !isEmpty(ctx.title) && Object.hasOwnProperty.call(ctx, 'value'));
 }
-
-/**
- * Add context to the test object so it can
- * be displayed in the mochawesome report
- *
- * @param {Object} test object
- * @param {String|Object} context to add
- *        If context is an object, it must have the shape:
- *        {
- *          title: string that is used as context title in the report
- *          value: the context that is to be added
- *        }
- *
- * Usage:
- *
- * it('should test something', function () {
- *   someFunctionThatTestsCode();
- *
- *   addContext(this, 'some context to add');
- *
- *   addContext(this, {
- *     title: 'Expected number of something'
- *     value: 42
- *   });
- *
- *   assert('something');
- * });
- *
- */
 
 const addContext = function (...args) {
   // Check args to see if we should bother continuing
@@ -123,4 +94,5 @@ const addContext = function (...args) {
   }
 };
 
-module.exports = addContext;
+let exported_addContext = addContext;
+export { exported_addContext as addContext };

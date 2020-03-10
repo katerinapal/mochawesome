@@ -1,17 +1,19 @@
-const Base = require('mocha/lib/reporters/base');
-const mochaPkg = require('mocha/package.json');
-const uuid = require('uuid');
-const marge = require('mochawesome-report-generator');
-const margePkg = require('mochawesome-report-generator/package.json');
-const conf = require('./config');
-const utils = require('./utils');
+import Base from "mocha/lib/reporters/base";
+import mochaPkg from "mocha/package.json";
+import uuid from "uuid";
+import marge from "mochawesome-report-generator";
+import margePkg from "mochawesome-report-generator/package.json";
+import { configjs as config_configjsjs } from "./config";
+import { utilsjs as utils_utilsjsjs } from "./utils";
+import spec_moduleDefault from "mocha/lib/reporters/spec";
+import statscollector_moduleDefault from "mocha/lib/stats-collector";
 const pkg = require('../package.json');
 
 // Import the utility functions
 const {
   log,
   mapSuites
-} = utils;
+} = utils_utilsjsjs;
 
 // Track the total number of tests registered
 const totalTestsRegistered = { total: 0 };
@@ -68,22 +70,16 @@ function consoleReporter(reporter) {
     }
   }
 
-  return require('mocha/lib/reporters/spec');
+  return {};
 }
 
-/**
- * Initialize a new reporter.
- *
- * @param {Runner} runner
- * @api public
- */
 function Mochawesome(runner, options) {
   // Set the config options
-  this.config = conf(options);
+  this.config = config_configjsjs(options);
 
   // Ensure stats collector has been initialized
   if (!runner.stats) {
-    const createStatsCollector = require('mocha/lib/stats-collector');
+    const createStatsCollector = {};
     createStatsCollector(runner);
   }
 
@@ -181,4 +177,12 @@ function Mochawesome(runner, options) {
   });
 }
 
-module.exports = Mochawesome;
+var exported_Mochawesome = Mochawesome;
+
+/**
+ * Initialize a new reporter.
+ *
+ * @param {Runner} runner
+ * @api public
+ */
+export { exported_Mochawesome as Mochawesome };

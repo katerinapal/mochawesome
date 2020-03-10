@@ -1,4 +1,4 @@
-const addContext = require('../src/addContext');
+import { addContext as addContext_addContextjs } from "../src/addContext";
 
 function retObj() {
   return {
@@ -51,7 +51,7 @@ describe('Master Test Suite', () => {
     });
     it('passing test', function (done) {
       (1+1).should.equal(2);
-      addContext(this, 'https://github.com/adamgruber');
+      addContext_addContextjs(this, 'https://github.com/adamgruber');
       done();
     });
     describe('Nested Test Suite', () => {
@@ -61,7 +61,7 @@ describe('Master Test Suite', () => {
       });
     });
     it('should be a failing test', function (done) {
-      addContext(this, {
+      addContext_addContextjs(this, {
         title: 'How I Feel When Tests Fail',
         value: 'http://i.imgur.com/c4jt321.png'
       });
